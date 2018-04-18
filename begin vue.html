@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>Begin Vue</title>
+	<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>{{ name }}</h1>
+		<h1>{{  doing }}</h1>
+		<h1>{{ where }}</h1>
+		<h1>{{ add() }}</h1>
+	</div>
+
+	<script>
+	new Vue({
+		  el: '#app',
+		  data: {
+		    name: 'Ming xiao',
+		    doing: 'Hello Vue.js!',
+		    where: 'in the html code',
+		  },
+		  methods:{
+		  	add:function(){
+		  		return this.name+' '+this.where+' print:"'+this.doing+'"';
+		  	}
+		  }
+	})
+	</script>
+</body>
+</html>

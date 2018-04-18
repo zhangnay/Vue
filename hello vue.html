@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>Hello Vue</title>
+	<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+<body>
+	<div id="app">
+	{{ msg }}   number*2={{ number*2 }}
+	</div>
+	<script>
+	new Vue({
+	  el: '#app',
+	  data: {
+	    msg: 'Hello Vue.js!',
+	    number: 20
+	  }
+	})
+	</script>
+</body>
+</html>
