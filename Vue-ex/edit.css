@@ -1,0 +1,41 @@
+.edit{
+	width: 200px;/*height: 150px;*/
+	margin: 50px auto;
+	text-align: center;
+	position: relative;
+}
+.tooltip{
+	width: 100%;height: 50px;
+
+	text-align: center;
+	border:10px solid #5597b4;
+	position: absolute;
+	box-sizing: border-box;
+}
+.tooltip input{
+	width: 100%;/*height: 30px;*/
+	line-height: 30px;
+	text-align: center;
+	border:none;
+	/*position: relative;*/
+}
+.tooltip:after{
+	content: '';
+	position: absolute;
+	left: 50%;bottom: -22px;
+	margin: 0 0 0 -6px;
+	width: 0;height: 0;
+	border: 6px solid #5597b4;
+	border-color: #5597b4 transparent transparent;
+}
+
+
+.edit p{
+	padding: 70px 0 0 0;
+	color: #6d8088;
+	font-weight: bold;
+}
+.edit p:before{
+	content: '✎';
+
+}

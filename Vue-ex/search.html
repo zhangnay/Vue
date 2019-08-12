@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search</title>
+	<script type="text/javascript" src="Vue-2.5.16.js"></script>
+	<link rel="stylesheet" type="text/css" href="search.css">
+</head>
+<body>
+	<form id="searchV" v-cloak >
+		<div class="bar">
+			<input type="text" v-model="searchS" placeholder="请输入搜索内容！">
+		</div>
+		<ul>
+			<li v-for="val in lists" >
+				<a :href="val.url"><img :src="val.image"></a>
+				<p>{{val.title}}</p>
+			</li>
+		</ul>
+	</form>
+	<script>
+		var searchV = new Vue({
+			el:'#searchV',
+			data:{
+				searchS:'',
+				list:[
+					{
+		                "title": "What You Need To Know About CSS Variables",
+		                "url": "https://www.runoob.com/css/css-tutorial.html",
+		                "image": "https://static.runoob.com/images/icon/css.png"
+		            },
+		            {
+		                "title": "Freebie: 4 Great Looking Pricing Tables",
+		                "url": "https://www.runoob.com/html/html-tutorial.html",
+		                "image": "https://static.runoob.com/images/icon/html.png"
+		            },
+		            {
+		                "title": "20 Interesting JavaScript and CSS Libraries for February 2016",
+		                "url": "https://www.runoob.com/css3/css3-tutorial.html",
+		                "image": "https://static.runoob.com/images/icon/css3.png"
+		            },
+		            {
+		                "title": "Quick Tip: The Easiest Way To Make Responsive Headers",
+		                "url": "https://www.runoob.com/css3/css3-tutorial.html",
+		                "image": "https://static.runoob.com/images/icon/css3.png"
+		            },
+		            {
+		                "title": "Learn SQL In 20 Minutes",
+		                "url": "https://www.runoob.com/sql/sql-tutorial.html",
+		                "image": "https://static.runoob.com/images/icon/sql.png"
+		            },
+		            {
+		                "title": "Creating Your First Desktop App With HTML, JS and Electron",
+		                "url": "https://www.runoob.com/js/js-tutorial.html",
+		                "image": "https://static.runoob.com/images/icon/html.png"
+		            }
+				]
+			},
+			computed:{
+				lists:function(){
+					var lists = this.list,
+					searchS = this.searchS;
+					if(!searchS){
+						return lists;
+					}
+					//字符串trim()->去空格  toLowerCase()->小写
+					searchS = searchS.trim().toLowerCase();
+					lists = lists.filter(function(item){
+						//indexOf->方法可返回某个指定的字符串值在字符串中首次出现的位置。
+		                if(item.title.toLowerCase().indexOf(searchS) !== -1){
+		                    return item;
+		                }
+		            })
+
+		            // 返回过来后的数组
+		            return lists;
+				}
+			}
+		});
+
+	</script>
+</body>
+</html>

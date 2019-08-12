@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>List</title>
+	<script type="text/javascript" src="Vue-2.5.16.js"></script>
+	<link rel="stylesheet" type="text/css" href="list.css">
+</head>
+<body>
+	<form id="listV" v-cloak >
+		<h1>List</h1>
+		<ul>
+			<li v-for="val in list" @click="toggleActive(val)" :class="{ 'active': val.active}">
+				{{val.name}}<span>{{val.price | curreny}}</span>
+			</li>
+		</ul>
+		<div class="total">
+			Total:<span>{{total()|curreny}}</span>
+		</div>
+	</form>
+	<script>
+		//创建过滤器
+		Vue.filter('curreny',function(value){
+			return '$' + value.toFixed(2);
+			//toFixed(2)->小数点后两位
+		});
+		var listV = new Vue({
+			el:'#listV',
+			data:{
+				list:[
+					{
+						name: 'Web Development',
+                		price: 300,
+                		active:true
+					},
+					{
+						name: 'Design',
+                		price: 400,
+                		active:false
+					},{
+						name: 'Integration',
+                		price: 250,
+                		active:true
+					},{
+						name: 'Training',
+                		price: 220,
+                		active:true
+					}
+				]
+			},
+			methods:{
+				toggleActive:function(val){
+					val.active = !val.active;
+				},
+				total:function () {
+					var total = 0;
+					this.list.forEach(function(val){
+						if(val.active){
+							total += val.price
+						}
+					});
+					return total;
+				}
+			}
+		});
+	</script>
+</body>
+</html>

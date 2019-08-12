@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Index</title>
+	<script type="text/javascript" src="Vue-2.5.16.js"></script>
+	<link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+	<div id="Vue">
+		<div class="head">
+			<img src="{{on}}.jpg">
+		</div>
+		<nav :class="on" class="navs">
+			<a href="#" class="home"    @click="onActive('home')"    >Home</a>
+			<a href="#" class="project" @click="onActive('project')" >Project</a>
+			<a href="#" class="help"    @click="onActive('help')"    >Help</a>
+			<a href="#" class="info"    @click="onActive('info')"    >Info</a>
+		</nav>
+
+		<p>{{on}}</p>
+	</div>
+
+	<script>
+		var vue = new Vue({
+			el:"#Vue",
+			data:{
+				on:'home'
+			},
+			methods:{
+				onActive:function(item){
+					this.on = item;
+				}
+			}
+		});
+	</script>
+</body>
+</html>

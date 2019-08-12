@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Edit</title>
+	<script type="text/javascript" src="Vue-2.5.16.js"></script>
+	<link rel="stylesheet" type="text/css" href="edit.css">
+</head>
+<body>
+	<div id="edit_V" v-cloak @click="hideToolTip"  class="edit">
+		<div class="tooltip" @click.stop v-if="tooltip_val">
+			<input type="text" v-model="content">
+		</div>
+		<p @click.stop="toggleToolTip">{{content}}</p>
+	</div>
+	<script>
+		var edit = new Vue({
+			el:'#edit_V',
+			data:{
+				tooltip_val:false,
+				content:'点击编辑！'
+			},
+			methods:{
+				hideToolTip:function(){
+					this.tooltip_val = false;
+				},
+				toggleToolTip:function(){
+					this.tooltip_val = !this.tooltip_val;
+				}
+			}
+		});
+	</script>
+</body>
+</html>

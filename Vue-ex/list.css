@@ -1,0 +1,42 @@
+#listV{
+	width: 400px;
+	margin: 100px auto;
+	background: #61a1bc;
+	padding: 10px 1%;
+}
+#listV h1{
+	text-align: center;
+	color: white;
+}
+#listV ul{
+	/*width: 90%;*/
+	margin: 0 auto;
+	padding: 0px;
+	border-bottom: 1px solid white;
+}
+#listV ul li{
+	height: 40px;
+	line-height: 40px;
+	margin: 10px 0;
+	padding: 6px 10px;
+	list-style: none;
+	color: white;
+	font-weight: bold;
+	background: #e35885;
+}
+#listV ul li span {
+	float: right;
+}
+
+#listV ul .active{
+	background: #8ec16d;
+}
+
+.total{
+	margin: 10px 0;
+	font-weight: bold;
+	color: white;
+}
+.total span {
+	float: right;
+}
