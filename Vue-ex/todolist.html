@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TodoList</title>
+	<script type="text/javascript" src="Vue-2.5.16.js"></script>
+	<link rel="stylesheet" type="text/css" href="todolist.css">
+</head>
+<body>
+	<div id="todolist" v-cloak >
+		<!-- 头部搜索、添加、切换布局 -->
+		<div class="search">
+			<!-- 搜索：绑定的searchS值-->
+			<input type="text" v-model="searchS">
+			<!-- 切换布局：反转layout的值 -->
+			<span :class="layout?'gridB':'listB'"  @click="layout = !layout"></span>
+			<!-- 添加：searchS值并重置searchS -->
+			<span class="addL" @click="addList()"></span>
+		</div>
+
+		<!-- 卡片式布局 -->
+		<div v-if="layout&&!iswork" class="grid">
+			<!-- 遍历数组显示 !val.iswork 为真的数据 -->
+			<div v-for="(val, index) in lists" v-if="!val.iswork">
+				<!-- 完成：val.iswork修改为1 -->
+				<input type="checkbox" @click="val.iswork=1">
+				<span>{{val.title}}</span>
+				<!-- 删除：根据index索引 -->
+				<label @click="del(index)"></label>
+				<!-- 显示详情 -->
+				<div class="context" >
+					<!-- 单击切换修改 -->
+					<p @click="val.isedit = !val.isedit" v-if="!val.isedit">{{val.text}}</p>
+					<!-- 修改：显示获取焦点（v-focus） 失焦反转isdeit -->
+					<textarea v-model="val.text"  v-else @blur="val.isedit = !val.isedit" v-focus></textarea>
+				</div>
+			</div>
+		</div>
+
+		<!-- iswork：已完成 -->
+		<div v-if="layout&&iswork" class="grid iswork" >
+			<div v-for="(val, index) in lists" v-if="val.iswork">
+				<!-- 未完成：val.iswork修改为0-->
+				<input type="checkbox" @click="val.iswork=0">
+				<span>{{val.title}}</span>
+				<label @click="del(index)"></label>
+				<div class="context" >
+					<p @click="val.isedit = !val.isedit" v-if="!val.isedit">{{val.text}}</p>
+					<textarea v-model="val.text"  v-else @blur="val.isedit = !val.isedit" v-focus></textarea>
+				</div>
+				<!-- 有完成项，修改isworked为true -->
+				{{worked()}}
+			</div>
+			<!-- 未出现 完成项 提示 -->
+			<h2 v-if="!isworked">空空如也！</h2>
+		</div>
+
+
+
+		<ul v-if="!layout&&!iswork" class="list">
+			<li v-for="val in lists" v-if="!val.iswork">
+				<input type="checkbox" @click="val.iswork=1">
+				<!-- <span>{{val.title}}</span> -->
+				<input v-model="val.title" class="list_edit"></input>
+			</li>
+		</ul>
+
+		<!-- iswork -->
+		<ul v-if="!layout&&iswork" class="list iswork"  >
+			<li v-for="val in lists" v-if="val.iswork">
+				<input type="checkbox" @click="val.iswork=0">
+				<!-- <span>{{val.title}}</span> -->
+				<input v-model="val.title" class="list_edit"></input>
+				{{worked()}}
+			</li>
+			<h2 v-if="!isworked">空空如也！</h2>
+		</ul>
+
+		<!-- 反转iswork 完成/未完成 -->
+		<div class="c_D" @click="iswork=!iswork">D</div>
+	</div>
+	<script>
+		//自定义指令
+		Vue.directive('focus',{
+			inserted:function(el){
+				el.focus();
+			}
+		});
+		//初始化
+		var vm = new Vue({
+			el:'#todolist',
+			data:{
+				searchS:'',
+				layout:false,
+				iswork:false,
+				isworked:false,
+				list:[
+					{
+		                "title": "What You Need To Know About CSS Variables",
+		                "text": "https://www.runoob.com/css/css-tutorial.html",
+		                "iswork": 0,
+		                "isedit": 0
+		            },
+		            {
+		                "title": "Freebie: 4 Great Looking Pricing Tables",
+		                "text": "https://www.runoob.com/html/html-tutorial.html",
+		                "iswork": 0,
+		                "isedit": 0
+		            },
+		            {
+		                "title": "20 Interesting JavaScript and CSS Libraries for February 2016",
+		                "text": "https://www.runoob.com/css3/css3-tutorial.html",
+		                "iswork": 0,
+		                "isedit": 0
+		            },
+		            {
+		                "title": "Quick Tip: The Easiest Way To Make Responsive Headers",
+		                "text": "https://www.runoob.com/css3/css3-tutorial.html",
+		                "iswork": 0,
+		                "isedit": 0
+		            },
+		            {
+		                "title": "Learn SQL In 20 Minutes",
+		                "text": "https://www.runoob.com/sql/sql-tutorial.html",
+		                "iswork": 0,
+		                "isedit": 0
+		            },
+		            {
+		                "title": "Creating Your First Desktop App With HTML, JS and Electron",
+		                "text": "https://www.runoob.com/js/js-tutorial.html",
+		                "iswork": 0,
+		                "isedit": 0
+		            }
+				]
+			},
+			methods:{
+				addList:function(){
+					if(this.searchS){
+						this.list.push({
+			                "title": this.searchS,
+			                "text": "",
+			                "iswork": 0
+			            });
+			            this.searchS="";
+		            }
+				},
+				del:function(index){
+					this.list.splice(index,1);
+				},
+				worked:function(){
+					this.isworked = true;
+             	}
+			},
+			computed:{
+				lists:function(){
+					var lists = this.list,
+					searchS = this.searchS;
+					if(!searchS){
+						return lists;
+					}
+					//字符串trim()->去空格  toLowerCase()->小写
+					searchS = searchS.trim().toLowerCase();
+					lists = lists.filter(function(item){
+						//indexOf->方法可返回某个指定的字符串值在字符串中首次出现的位置。
+		                if(item.title.toLowerCase().indexOf(searchS) !== -1||item.text.toLowerCase().indexOf(searchS) !== -1){
+		                    return item;
+		                }
+		            })
+
+		            // 返回过来后的数组
+		            return lists;
+				}
+			}
+		});
+	</script>
+</body>
+</html>
